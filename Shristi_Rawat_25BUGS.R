@@ -11,10 +11,10 @@
 # ===== UNIT 1: Getting Started with R (Bugs 1-9) =====
 
 # BUG 1 - Missing assignment operator
-name "Shristi"                    # BUG 1: missing <-
+name "Shristi"              
 cat(name)
 # FIX:
-
+name <-"shristi"
 # BUG 2 - Wrong function name for printing
 Print("Hello World")              # BUG 2: R uses print() lowercase
 # FIX:
