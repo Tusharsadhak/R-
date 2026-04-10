@@ -164,4 +164,3 @@ cat("\nPrime numbers between 1 and 50:\n")
 primes <- Filter(is_prime, 1:50)
 cat(paste(primes, collapse = ", "), "\n")
 cat(sprintf("Total primes found: %d\n", length(primes)))
-
