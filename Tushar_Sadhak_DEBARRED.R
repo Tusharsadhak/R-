@@ -10,7 +10,7 @@ semester <- 4L
 
 birth_year   <- 2026L - age
 days_lived   <- age * 365.25
-next_bday <- max(21L - age, 0L)                       #FIX:years
+next_bday <- max(21L - age, 0L)                      #FIX:years
 until 21, not a calendar year
 
 cat(sprintf("Hello, %s!\n", name))
