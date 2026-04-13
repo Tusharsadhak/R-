@@ -9,15 +9,16 @@ branch   <- "BCA"
 semester <- 4L
 
 birth_year   <- 2026L - age
-days_lived   <- age * 365L
-next_bday    <- 21L - age                          # FIX: years until 21, not a calendar year
+days_lived   <- age * 365.25
+next_bday <- max(21L - age, 0L)                       #FIX:years
+until 21, not a calendar year
 
 cat(sprintf("Hello, %s!\n", name))
 cat(sprintf("Branch  : %s | Semester : %d\n", branch, semester))
 cat(sprintf("Age     : %d years  |  Born in : %d\n", age, birth_year))
 cat(sprintf("You have lived approximately %s days.\n",
             format(days_lived, big.mark = ",")))
-cat(sprintf("You will turn 21 in %d year(s).\n\n", next_bday))  # FIX: updated label too
+cat(sprintf("You will turn 21 in %d year(s).\n\n", next_bday)) #FIX: updated label too
 
 
 # ── Q2 [Unit 1] Vectors, Statistics & Logical Filtering ─────
@@ -42,7 +43,7 @@ cat(sprintf("Median    : %.1f\n\n",   median(marks)))
 pass_thresh <- 60
 result <- ifelse(marks >= pass_thresh, "PASS", "FAIL")
 for (i in seq_along(subjects)) {
-  cat(sprintf("  %-12s : %3d  [%s]\n", subjects[i], marks[i], result[i]))
+  cat(sprintf("  %-15s : %3d  [%s]\n", subjects[i], marks[i], result[i]))
 }
 
 # overall grade — FIX: removed dead dplyr::case_when block (crash risk if dplyr absent)
@@ -65,7 +66,7 @@ students <- data.frame(
   stringsAsFactors = FALSE
 )
 
-students$Total      <- rowSums(students[, 2:4])
+students$Total<-rowSums(students[,c("Maths","Science","English")])
 students$Percentage <- round(students$Total / 300 * 100, 2)
 students$Grade      <- ifelse(students$Percentage >= 75, "Distinction",
                        ifelse(students$Percentage >= 60, "First Class",
@@ -79,7 +80,10 @@ cat("Student Report Card:\n")
 print(students[, c("Rank","Name","Maths","Science","English","Total","Percentage","Grade")])
 
 cat(sprintf("\nClass Topper : %s (%.1f%%)\n",
-            students$Name[1], students$Percentage[1]))
+            if (nrow(students) > 0) {
+  cat(sprintf("\nClass Topper : %s (%.1f%%)\n",
+              students$Name[1], students$Percentage[1]))
+}
 cat(sprintf("Class Average: %.2f%%\n\n", mean(students$Percentage)))
 
 # bar chart
@@ -133,10 +137,12 @@ for (m in test_marks) calculate_grade(m)
 # FIX: guard loop with `if (n >= 3)` to prevent reverse iteration when n < 3
 cat("\nFibonacci Sequence (first 15 terms):\n")
 fibonacci <- function(n) {
+  if (n <= 0) return(integer(0))   # FIX
+
   fib <- integer(n)
   fib[1] <- 0L
   if (n > 1) fib[2] <- 1L
-  if (n >= 3) {                                    # FIX: was `for (i in 3:n)` — crashes when n=1
+  if (n >= 3) {
     for (i in 3:n) fib[i] <- fib[i-1] + fib[i-2]
   }
   return(fib)
